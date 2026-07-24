@@ -1,0 +1,63 @@
+import pandas as pd
+import streamlit as st
+
+# Senha fixa
+senha_correta = "ditre123"
+senha = st.text_input("Digite a senha para acessar:", type="password")
+
+if senha == senha_correta:
+    st.success("Acesso liberado ✅")
+
+    # Carregar CSV
+    df = pd.read_csv("Cons_Equip.csv", sep=";", encoding="utf-8-sig")
+    df.columns = df.columns.str.strip()
+
+    st.title("Consulta de Equipamentos - Análise Especializada")
+
+    # Campo de busca por texto
+    busca = st.text_input("🔍 Digite parte do nome do equipamento:")
+
+    if busca:
+        filtrados = df[df["Item"].str.lower().str.contains(busca.lower().strip(), na=False)]
+        if not filtrados.empty:
+            st.dataframe(filtrados[["Cod. Item", "Item", "Definicao", "Classificacao", "R$ Valor Sugerido", "Item Dolarizado", "Especificacao Sugerida", "Tipo"]])
+        else:
+            st.warning("Nenhum equipamento encontrado para essa busca.")
+    else:
+        # Lista suspensa com todos os equipamentos
+        equipamentos = sorted(df["Item"].dropna().unique())
+        equipamento = st.selectbox("Selecione o equipamento:", equipamentos)
+
+        if equipamento:
+            resultado = df[df["Item"].str.lower().str.strip() == equipamento.lower().strip()]
+            if not resultado.empty:
+                codigo = resultado.iloc[0].get("Cod. Item", "")
+                descricao = resultado.iloc[0].get("Definicao", "")
+                classificacao = resultado.iloc[0].get("Classificacao", "")
+                valor_reais = resultado.iloc[0].get("R$ Valor Sugerido", "")
+                valor_dolar = resultado.iloc[0].get("Item Dolarizado", "")
+                especificacao = resultado.iloc[0].get("Especificacao Sugerida", "")
+                tipo = resultado.iloc[0].get("Tipo", "")
+
+                st.subheader(f"Equipamento: {equipamento}")
+                st.write(f"**Código:** {codigo}")
+                st.write(f"**Descrição:** {descricao}")
+                st.write(f"**Classificação:** {classificacao}")
+                st.write(f"**Valor Sugerido (R$):** {valor_reais}")
+                st.write(f"**Valor em Dólar:** {valor_dolar}")
+                st.write(f"**Especificação Sugerida:** [Abrir link]({especificacao})")
+                st.write(f"**Tipo:** {tipo}")
+
+                # Destaque visual
+                if "especializada" in str(tipo).lower():
+                    st.success("✅ Este equipamento é de ANÁLISE ESPECIALIZADA")
+                else:
+                    st.info("ℹ️ Este equipamento NÃO é de análise especializada")
+else:
+    st.warning("Digite a senha correta para acessar o sistema.")
+
+# Rodapé discreto
+st.markdown(
+    "<p style='text-align:right; font-size:12px; color:green;'>Bartolomeu Lima</p>",
+    unsafe_allow_html=True
+)
