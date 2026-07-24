@@ -28,6 +28,11 @@ if senha == senha_correta:
     if busca.strip():
         filtrados = df[df["Item"].astype(str).str.lower().str.contains(busca.lower().strip(), na=False)]
         equipamentos = sorted(filtrados["Item"].unique())
+
+        if equipamentos:
+            st.success("✅ Equipamento encontrado, selecione com um click")
+        else:
+            st.warning("Nenhum equipamento encontrado para essa busca.")
     else:
         equipamentos = sorted(df["Item"].dropna().unique())
 
