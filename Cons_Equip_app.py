@@ -30,7 +30,10 @@ if senha == senha_correta:
         equipamentos = sorted(filtrados["Item"].unique())
 
         if equipamentos:
-            st.success("✅ Equipamento encontrado, selecione com um click")
+            st.markdown(
+                "<p style='color:green; font-weight:bold;'>✅ Equipamento encontrado, selecione com um click</p>",
+                unsafe_allow_html=True
+            )
         else:
             st.warning("Nenhum equipamento encontrado para essa busca.")
     else:
