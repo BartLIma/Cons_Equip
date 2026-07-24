@@ -31,12 +31,9 @@ if senha == senha_correta:
     else:
         equipamentos = sorted(df["Item"].dropna().unique())
 
-    # Se houver apenas um resultado na busca, já seleciona automaticamente
-    if busca.strip() and len(equipamentos) == 1:
-        equipamento = equipamentos[0]
-    else:
-        equipamentos = ["Selecione..."] + equipamentos
-        equipamento = st.selectbox("Selecione o equipamento:", equipamentos)
+    # Sempre mantém a caixa de seleção
+    equipamentos = ["Selecione..."] + equipamentos
+    equipamento = st.selectbox("Selecione o equipamento:", equipamentos)
 
     if equipamento != "Selecione...":
         resultado = df[df["Item"].str.lower().str.strip() == equipamento.lower().strip()]
