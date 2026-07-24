@@ -26,15 +26,17 @@ if senha == senha_correta:
     busca = st.text_input("🔍 Digite parte do nome do equipamento:")
 
     if busca.strip():
-        # Filtra por substring no campo Item
         filtrados = df[df["Item"].astype(str).str.lower().str.contains(busca.lower().strip(), na=False)]
         equipamentos = sorted(filtrados["Item"].unique())
     else:
         equipamentos = sorted(df["Item"].dropna().unique())
 
-    # Adiciona opção inicial "Selecione..."
-    equipamentos = ["Selecione..."] + equipamentos
-    equipamento = st.selectbox("Selecione o equipamento:", equipamentos)
+    # Se houver apenas um resultado na busca, já seleciona automaticamente
+    if busca.strip() and len(equipamentos) == 1:
+        equipamento = equipamentos[0]
+    else:
+        equipamentos = ["Selecione..."] + equipamentos
+        equipamento = st.selectbox("Selecione o equipamento:", equipamentos)
 
     if equipamento != "Selecione...":
         resultado = df[df["Item"].str.lower().str.strip() == equipamento.lower().strip()]
