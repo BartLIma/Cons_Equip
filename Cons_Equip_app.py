@@ -8,8 +8,16 @@ senha = st.text_input("Digite a senha para acessar:", type="password")
 if senha == senha_correta:
     st.success("Acesso liberado ✅")
 
-    # Carregar CSV
-    df = pd.read_csv("Cons_Equip.csv", sep=";", encoding="utf-8-sig")
+    # Tentativa de leitura do CSV com fallback de encoding
+    try:
+        df = pd.read_csv("Cons_Equip.csv", sep=";", encoding="utf-8-sig")
+    except UnicodeDecodeError:
+        try:
+            df = pd.read_csv("Cons_Equip.csv", sep=";", encoding="latin1")
+        except Exception as e:
+            st.error(f"Erro ao carregar o arquivo: {e}")
+            st.stop()
+
     df.columns = df.columns.str.strip()
 
     st.title("Consulta de Equipamentos - Análise Especializada")
@@ -20,7 +28,20 @@ if senha == senha_correta:
     if busca:
         filtrados = df[df["Item"].str.lower().str.contains(busca.lower().strip(), na=False)]
         if not filtrados.empty:
-            st.dataframe(filtrados[["Cod. Item", "Item", "Definicao", "Classificacao", "R$ Valor Sugerido", "Item Dolarizado", "Especificacao Sugerida", "Tipo"]])
+            st.dataframe(
+                filtrados[
+                    [
+                        "Cod. Item",
+                        "Item",
+                        "Definicao",
+                        "Classificacao",
+                        "R$ Valor Sugerido",
+                        "Item Dolarizado",
+                        "Especificacao Sugerida",
+                        "Tipo",
+                    ]
+                ]
+            )
         else:
             st.warning("Nenhum equipamento encontrado para essa busca.")
     else:
