@@ -2,11 +2,11 @@ import pandas as pd
 import streamlit as st
 
 # Senha fixa
-senha_correta = "ditre123"
-senha = st.text_input("Digite a senha para acessar:", type="password")
+# senha_correta = "ditre123"
+# senha = st.text_input("Digite a senha para acessar:", type="password")
 
-if senha == senha_correta:
-    st.success("Acesso liberado ✅")
+# if senha == senha_correta:
+    # st.success("Acesso liberado ✅")
 
     # Tentativa de leitura do CSV com fallback de encoding
     try:
