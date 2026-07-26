@@ -77,4 +77,4 @@ st.markdown(
     unsafe_allow_html=True
 )
 # Volta para o Menu
-st.markdown("[⬅️ Voltar ao Menu](https://link-do-app-menu)")
+st.markdown("[⬅️ Voltar ao Menu](https://jcx2q4gypazay4wsx9btow.streamlit.app/)")
