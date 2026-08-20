@@ -61,7 +61,7 @@ if equipamento != "Selecione...":
         tipo_texto = str(tipo).lower().strip() if pd.notna(tipo) else ""
 
         # Destaque visual baseado na condição solicitada
-        if any(termo in tipo_texto for termo in ["especializada", "especializado", "especializa"]):
+        if any(termo in tipo_texto for termo in ["especializada", "especializado", "ESPECIALIZADO"]):
             st.success("✅ Este equipamento é de ANÁLISE ESPECIALIZADA")
         else:
             st.info("ℹ️ Este equipamento NÃO é de análise especializada")
