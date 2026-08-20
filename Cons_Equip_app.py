@@ -56,11 +56,11 @@ if equipamento != "Selecione...":
         st.write(f"**Especificação Sugerida:** [Abrir link]({especificacao})")
         st.write(f"**Tipo:** {tipo}")
 
-        # Destaque visual
-        if "especializada" in str(tipo).lower():
-            st.success("✅ Este equipamento é de ANÁLISE ESPECIALIZADA")
-        else:
-            st.info("ℹ️ Este equipamento NÃO é de análise especializada")
+       # Destaque visual (Alternativa explícita)
+if any(termo in str(tipo).lower() for termo in ["especializada", "especializado"]):
+    st.success("✅ Este equipamento é de ANÁLISE ESPECIALIZADA")
+else:
+    st.info("ℹ️ Este equipamento NÃO é de análise especializada")
 
 # Rodapé discreto
 st.markdown(
