@@ -59,7 +59,13 @@ if equipamento != "Selecione...":
     # Garante que 'tipo' não seja nulo e converte para texto minúsculo com segurança
 tipo_texto = str(tipo).lower().strip() if tipo is not None else ""
 
-# Destaque visual sem risco de quebrar o app
+# Verifica se a variável existe no sistema e se não está vazia
+if "tipo" in locals() or "tipo" in globals():
+    tipo_texto = str(tipo).lower().strip() if tipo else ""
+else:
+    tipo_texto = ""
+
+# Destaque visual 100% seguro contra campos em branco
 if any(termo in tipo_texto for termo in ["especializada", "especializado"]):
     st.success("✅ Este equipamento é de ANÁLISE ESPECIALIZADA")
 else:
