@@ -60,11 +60,19 @@ if equipamento != "Selecione...":
         # Converte de forma segura o valor obtido para texto minúsculo
         tipo_texto = str(tipo).lower().strip() if pd.notna(tipo) else ""
 
-        # Destaque visual baseado na condição solicitada
-        if any(termo in tipo_texto for termo in ["especializada", "especializado", "ESPECIALIZADO"]):
+                # --- BLOCO DE DESTAQUE VISUAL (CORRIGIDO) ---
+        # Converte de forma segura o valor obtido para texto minúsculo
+        tipo_texto = str(tipo).lower().strip() if pd.notna(tipo) else ""
+
+        # Se contiver "não", pula direto para o bloco informativo de NÃO ESPECIALIZADA
+        if "não" in tipo_texto or "nao" in tipo_texto:
+            st.info("ℹ️ Este equipamento NÃO é de análise especializada")
+        # Se não tiver o "não", mas tiver o radical da especialização, é positiva
+        elif any(termo in tipo_texto for termo in ["especializada", "especializado", "especializa"]):
             st.success("✅ Este equipamento é de ANÁLISE ESPECIALIZADA")
         else:
             st.info("ℹ️ Este equipamento NÃO é de análise especializada")
+
 
 # Rodapé discreto
 st.markdown(
